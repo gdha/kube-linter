@@ -97,9 +97,13 @@ packr: $(PACKR_BIN)
 
 .PHONY: build
 build: packr
+ifeq ($(UNAME_S),Darwin)
 	@CGO_ENABLED=0 GOOS=darwin scripts/go-build.sh ./cmd/kube-linter
+endif
 	@CGO_ENABLED=0 GOOS=linux scripts/go-build.sh ./cmd/kube-linter
+ifeq ($(UNAME_S),Windows)	
 	@CGO_ENABLED=0 GOOS=windows scripts/go-build.sh ./cmd/kube-linter
+endif
 	@mkdir -p "$(GOBIN)"
 	@cp "bin/$(HOST_OS)/kube-linter" "$(GOBIN)/kube-linter"
 	@chmod u+w "$(GOBIN)/kube-linter"
