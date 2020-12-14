@@ -126,4 +126,11 @@ test: packr
 .PHONY: e2e-test
 e2e-test: $(KUBE_LINTER_BIN)
 	KUBE_LINTER_BIN="$(KUBE_LINTER_BIN)" go test -tags e2e -count=1 ./e2etests/...
+#############
+## Install ##
+#############
 
+.PHONY: install
+install: build
+	@sudo cp "bin/$(HOST_OS)/kube-linter" /usr/local/bin/kube-linter
+	@sudo chmod 0755 /usr/local/bin/kube-linter
